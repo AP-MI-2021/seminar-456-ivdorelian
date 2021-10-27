@@ -54,4 +54,4 @@ def get_an_introducere(prajitura):
 
 
 def get_str(prajitura):
-    return f'Prajitura cu id-ul {get_id(prajitura)}, introdusa in anul {get_an_introducere(prajitura)}, numele {get_nume(prajitura)}.'
+    return f'Prajitura cu id-ul {get_id(prajitura)}, introdusa in anul {get_an_introducere(prajitura)}, numele {get_nume(prajitura)}, pretul: {get_pret(prajitura)}.'

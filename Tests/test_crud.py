@@ -25,6 +25,13 @@ def test_create():
     #         found = True
     assert p_new in new_prajituri
 
+    # testam daca se lanseaza exceptie pentru id duplicat
+    params2 = (100, 'fdafdsa', 'dsg vc cxv', 322, 32, 555)
+    try:
+        _ = create(new_prajituri, *params2)
+        assert False
+    except ValueError:
+        assert True # sau pass
 
 def test_read():
     prajituri = get_data()

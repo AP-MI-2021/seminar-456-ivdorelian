@@ -14,6 +14,10 @@ def create(lst_prajituri,
     :param an_introducere:
     :return: o noua lista formata din lst_prajituri si noua prajitura adaugata.
     """
+
+    if read(lst_prajituri, id_prajitura) is not None:
+        raise ValueError(f'Exista deja o prajitura cu id-ul {id_prajitura}')
+
     prajitura = creeaza_prajitura(id_prajitura, nume, descriere, pret, calorii, an_introducere)
     #lst_prajituri.append(prajitura)
     return lst_prajituri + [prajitura]
@@ -24,8 +28,15 @@ def read(lst_prajituri, id_prajitura: int=None):
     Citeste o prajitura din "baza de date".
     :param lst_prajituri: lista de prajituri
     :param id_prajitura: id-ul prajiturii dorite.
-    :return: prajitura cu id-ul id_prajitura sau lista cu toate prajiturile, daca id_prajitura=None
+    :return:
+        - prajitura cu id-ul id_prajitura, daca exista
+        - lista cu toate prajiturile, daca id_prajitura=None
+        - None, daca nu exista o prajitura cu id_prajitura
     """
+
+    if not id_prajitura:
+        return lst_prajituri
+
     prajitura_cu_id = None
     for prajitura in lst_prajituri:
         if get_id(prajitura) == id_prajitura:
@@ -33,8 +44,7 @@ def read(lst_prajituri, id_prajitura: int=None):
 
     if prajitura_cu_id:
         return prajitura_cu_id
-    return lst_prajituri
-
+    return None
 
 def update(lst_prajituri, new_prajitura):
     """
@@ -45,6 +55,10 @@ def update(lst_prajituri, new_prajitura):
     """
 
     # lst_prajituri=[p1:(1,ecler), p2:(2,amandina)], prajitura=(2,lavacake)
+
+    if read(lst_prajituri, get_id(new_prajitura)) is None:
+        raise ValueError(f'Nu xista o prajitura cu id-ul {get_id(new_prajitura)} pe care sa o actualizam.')
+
     new_prajituri = []
     for prajitura in lst_prajituri:
         if get_id(prajitura) != get_id(new_prajitura):
@@ -61,6 +75,11 @@ def delete(lst_prajituri, id_prajitura: int):
     :param id_prajitura:
     :return: o lista de prajitura fara prajitura cu id-ul id_prajitura.
     """
+
+    if read(lst_prajituri, id_prajitura) is None:
+        raise ValueError(f'Nu xista o prajitura cu id-ul {id_prajitura} pe care sa o stergem.')
+
+
     new_prajituri = []
     for prajitura in lst_prajituri:
         if get_id(prajitura) != id_prajitura:

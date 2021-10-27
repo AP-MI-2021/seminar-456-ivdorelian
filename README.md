@@ -2,7 +2,7 @@
 
 Scrieți un program pentru gestionarea unei cofetării. Vor fi suportate operațiile:
 1. Adăugare / ștergere / modificare prăjitură (CRUD): se efectuează pe bază de ID. O prăjitură are: ID, nume, descriere (nenule), preț, calorii, anul introducerii în meniu. 
-2. Reducerea timpului de preparare pentru toate prăjiturile care conțin în nume un string dat.
+2. Reducerea pretului pentru toate prăjiturile care conțin în nume un string dat.
 3. Afișarea tuturor prăjiturilor introduse începând cu un an dat.
 4. Determinarea prăjiturii cu cel mai mare număr de calorii din fiecare an al introducerii.
 5. Ordonarea prăjiturilor crescător după raportul `preț / calorii`.
