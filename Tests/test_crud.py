@@ -14,8 +14,8 @@ def get_data():
 
 def test_create():
     prajituri = get_data()
-    params = (100, 'pnew', 'desc new', 2021, 2021.32, 2021)
-    p_new = creeaza_prajitura(*params)
+    params = (100, 'pnew', 'desc new', 2021, 2021.32, 2021, [], [])
+    p_new = creeaza_prajitura(*params[:-2])
     new_prajituri = create(prajituri, *params)
     assert len(new_prajituri) == len(prajituri) + 1
 
@@ -26,7 +26,7 @@ def test_create():
     assert p_new in new_prajituri
 
     # testam daca se lanseaza exceptie pentru id duplicat
-    params2 = (100, 'fdafdsa', 'dsg vc cxv', 322, 32, 555)
+    params2 = (100, 'fdafdsa', 'dsg vc cxv', 322, 32, 555, [], [])
     try:
         _ = create(new_prajituri, *params2)
         assert False
@@ -43,7 +43,7 @@ def test_read():
 def test_update():
     prajituri = get_data()
     p_updated = creeaza_prajitura(1, 'new name', 'new desc', 111, 222, 1999)
-    updated = update(prajituri, p_updated)
+    updated = update(prajituri, p_updated, [], [])
     assert p_updated in updated
     assert p_updated not in prajituri
     assert len(updated) == len(prajituri)
@@ -53,7 +53,7 @@ def test_delete():
     prajituri = get_data()
     to_delete = 3
     p_deleted = read(prajituri, to_delete)
-    deleted = delete(prajituri, to_delete)
+    deleted = delete(prajituri, to_delete, [], [])
     assert p_deleted not in deleted
     assert p_deleted in prajituri
     assert len(deleted) == len(prajituri) - 1

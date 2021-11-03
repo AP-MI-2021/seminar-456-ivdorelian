@@ -1,8 +1,16 @@
 from Domain.praitura import creeaza_prajitura, get_id
 
+def inverse_create(lst_prajituri, id_prajitura):
+    new_prajituri = []
+    for prajitura in lst_prajituri:
+        if get_id(prajitura) != id_prajitura:
+            new_prajituri.append(prajitura)
+    return new_prajituri
+
 
 def create(lst_prajituri,
-           id_prajitura: int, nume, descriere, pret, calorii, an_introducere):
+           id_prajitura: int, nume, descriere, pret, calorii, an_introducere,
+           undo_list: list, redo_list: list):
     """
     TODO
     :param lst_prajituri: lista de prajituri.
@@ -12,6 +20,8 @@ def create(lst_prajituri,
     :param pret:
     :param calorii:
     :param an_introducere:
+    :param undo_list:
+    :param redo_list:
     :return: o noua lista formata din lst_prajituri si noua prajitura adaugata.
     """
 
@@ -20,6 +30,18 @@ def create(lst_prajituri,
 
     prajitura = creeaza_prajitura(id_prajitura, nume, descriere, pret, calorii, an_introducere)
     #lst_prajituri.append(prajitura)
+
+
+    #undo_list.append(lst_prajituri) # ineficient
+    undo_list.append(
+        (lambda lst: inverse_create(lst, id_prajitura),
+         lambda lst: lst.append(prajitura))
+    )
+    # undo_list = [f_lambda1]
+    redo_list.clear()
+
+
+
     return lst_prajituri + [prajitura]
 
 
@@ -46,7 +68,7 @@ def read(lst_prajituri, id_prajitura: int=None):
         return prajitura_cu_id
     return None
 
-def update(lst_prajituri, new_prajitura):
+def update(lst_prajituri, new_prajitura, undo_list, redo_list):
     """
     Actualizeaza o prajitura.
     :param lst_prajituri: lista de prajituri.
@@ -65,10 +87,14 @@ def update(lst_prajituri, new_prajitura):
             new_prajituri.append(prajitura)
         else:
             new_prajituri.append(new_prajitura)
+
+    undo_list.append(lst_prajituri)
+    redo_list.clear()
+
     return new_prajituri
 
 
-def delete(lst_prajituri, id_prajitura: int):
+def delete(lst_prajituri, id_prajitura: int, undo_list, redo_list):
     """
 
     :param lst_prajituri:
@@ -77,13 +103,16 @@ def delete(lst_prajituri, id_prajitura: int):
     """
 
     if read(lst_prajituri, id_prajitura) is None:
-        raise ValueError(f'Nu xista o prajitura cu id-ul {id_prajitura} pe care sa o stergem.')
+        raise ValueError(f'Nu exista o prajitura cu id-ul {id_prajitura} pe care sa o stergem.')
 
 
     new_prajituri = []
     for prajitura in lst_prajituri:
         if get_id(prajitura) != id_prajitura:
             new_prajituri.append(prajitura)
+
+    undo_list.append(lst_prajituri)
+    redo_list.clear()
 
     return new_prajituri
 
